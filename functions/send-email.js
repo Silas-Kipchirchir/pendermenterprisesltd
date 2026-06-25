@@ -1,10 +1,11 @@
+```javascript
 export async function onRequestPost(context) {
   const { request, env } = context;
 
   try {
     const data = await request.json();
 
-    const response = await fetch("https://api.resend.com/emails", {
+    const resend = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
@@ -19,9 +20,7 @@ export async function onRequestPost(context) {
           <h2>New Quote Request</h2>
 
           <p><strong>Name:</strong> ${data.name}</p>
-
           <p><strong>Email:</strong> ${data.email}</p>
-
           <p><strong>Company:</strong> ${data.company}</p>
 
           <p><strong>Project Details:</strong></p>
@@ -31,15 +30,22 @@ export async function onRequestPost(context) {
       })
     });
 
-    return new Response(await response.text(), {
-      status: response.status,
-      headers: {
-        "Content-Type": "application/json"
+    const result = await resend.json();
+
+    return new Response(
+      JSON.stringify({
+        success: resend.ok,
+        result
+      }),
+      {
+        status: resend.status,
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    });
+    );
 
   } catch (error) {
-
     return new Response(
       JSON.stringify({
         success: false,
@@ -52,6 +58,6 @@ export async function onRequestPost(context) {
         }
       }
     );
-
   }
 }
+```
