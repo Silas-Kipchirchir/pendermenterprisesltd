@@ -1533,5 +1533,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     </div>
 </div>
 
+
+     document.getElementById("quoteForm").addEventListener("submit", async function(e) {
+
+e.preventDefault();
+
+const formData = {
+
+name: this.name.value,
+
+email: this.email.value,
+
+company: this.company.value,
+
+details: this.details.value
+
+};
+
+const response = await fetch("/send-email", {
+
+method: "POST",
+
+headers: {
+
+"Content-Type": "application/json"
+
+},
+
+body: JSON.stringify(formData)
+
+});
+
+if (response.ok) {
+
+alert("Quote request sent successfully!");
+
+this.reset();
+
+document.getElementById("quoteModal").style.display = "none";
+
+} else {
+
+alert("Failed to send quote request.");
+
+}
+
+});
+
+
+     
+
 </body>
 </html>
