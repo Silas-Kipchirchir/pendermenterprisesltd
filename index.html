@@ -1419,12 +1419,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    quoteForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert("Thank you! Your quote request has been submitted.");
-        quoteForm.reset();
-        quoteModal.style.display = 'none';
+
+quoteForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = {
+        name: quoteForm.name.value,
+        email: quoteForm.email.value,
+        company: quoteForm.company.value,
+        details: quoteForm.details.value
+    };
+
+    const response = await fetch("/functions/send-email", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
     });
+
+    const result = await response.json();
+
+    if(result.success){
+        alert("Quote request sent successfully!");
+        quoteForm.reset();
+        quoteModal.style.display="none";
+    }else{
+        alert("Failed to send request.");
+    }
+});
+
+     
 });
 
 document.querySelector('.cta-button').addEventListener('click', () => {
@@ -1492,7 +1517,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     <span class="close-quote-modal">&times;</span>
     <div class="quote-modal-content">
         <h2>Request a Quote</h2>
-    <form action="https://formsubmit.co/info@pendermenterprisesltd.co.ke" method="POST">
+    <form id="quoteForm">
 
     <input type="text" name="name" placeholder="Your Name" required>
     <input type="email" name="email" placeholder="Your Email" required>
