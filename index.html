@@ -478,8 +478,11 @@ section { padding: 80px 0; }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+    justify-items: center;
+    max-width: 800px;
+    margin: 0 auto;
     z-index: 1;
     position: relative;
 }
@@ -1274,8 +1277,7 @@ html { scroll-behavior: smooth; }
     <p style="font-size:1.1rem; max-width:700px; margin:0 auto;">Download our brochures, manuals, and guides to explore our products and services in detail.</p>
   </div>
 
- <div class="container services-grid"
-     style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:50px;">
+ <div class="container services-grid">
 
     <!-- Company Profile -->
     <div class="service-card">
